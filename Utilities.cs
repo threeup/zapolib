@@ -81,4 +81,34 @@ public static class Utilities
         float qz = (m.m10 - m.m01) / w;
         return new Quaternion(qx, qy, qz, qw);
     }
-	}
+	    public static Transform TransformByName(Transform xform, string name)
+    {
+        foreach (Transform child in xform)
+        {
+            if (child.name == name)
+            {
+                return child;
+            }
+            else
+            {
+                var result = TransformByName(child, name);
+                if (result)
+                {
+                    return result;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static float DistanceToObject(GameObject go, Vector3 pos)
+    {
+        if(!go)
+        {
+            return 999.9f;
+        }
+        Vector3 diff = go.transform.position - pos;
+        diff.y = 0.0f;
+        return diff.magnitude;
+    }
+}
